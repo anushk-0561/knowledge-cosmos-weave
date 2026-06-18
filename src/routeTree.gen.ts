@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ExploreTopicRouteImport } from './routes/explore.$topic'
 
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AchievementsRoute = AchievementsRouteImport.update({
+  id: '/achievements',
+  path: '/achievements',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,30 +37,34 @@ const ExploreTopicRoute = ExploreTopicRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
   '/history': typeof HistoryRoute
   '/explore/$topic': typeof ExploreTopicRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
   '/history': typeof HistoryRoute
   '/explore/$topic': typeof ExploreTopicRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/achievements': typeof AchievementsRoute
   '/history': typeof HistoryRoute
   '/explore/$topic': typeof ExploreTopicRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/history' | '/explore/$topic'
+  fullPaths: '/' | '/achievements' | '/history' | '/explore/$topic'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/history' | '/explore/$topic'
-  id: '__root__' | '/' | '/history' | '/explore/$topic'
+  to: '/' | '/achievements' | '/history' | '/explore/$topic'
+  id: '__root__' | '/' | '/achievements' | '/history' | '/explore/$topic'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AchievementsRoute: typeof AchievementsRoute
   HistoryRoute: typeof HistoryRoute
   ExploreTopicRoute: typeof ExploreTopicRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/achievements': {
+      id: '/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AchievementsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AchievementsRoute: AchievementsRoute,
   HistoryRoute: HistoryRoute,
   ExploreTopicRoute: ExploreTopicRoute,
 }
