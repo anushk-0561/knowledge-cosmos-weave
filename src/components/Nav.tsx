@@ -18,8 +18,10 @@ export function Nav() {
         <nav className="flex items-center gap-1 font-mono text-[11px] tracking-[0.2em] uppercase">
           {[
             { to: "/", label: "Universe" },
-            { to: "/history", label: "Trails" },
+            { to: "/history", label: "Constellation" },
+            { to: "/score", label: "Score" },
             { to: "/achievements", label: "Badges" },
+            { to: "/case-study", label: "Case Study" },
           ].map((l) => (
             <Link
               key={l.to}
