@@ -1,11 +1,10 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Canvas } from "@react-three/fiber";
 import { Nav } from "@/components/Nav";
+import { LandingScene } from "@/components/three/LandingScene";
 import { randomTopic } from "@/lib/wiki";
-
-const Canvas = lazy(() => import("@react-three/fiber").then((m) => ({ default: m.Canvas })));
-const Scene = lazy(() => import("@/components/three/LandingScene").then((m) => ({ default: m.LandingScene })));
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,17 +43,13 @@ function Index() {
       {/* 3D Scene */}
       <div className="absolute inset-0">
         {mounted && (
-          <Suspense fallback={null}>
-            <Canvas
-              camera={{ position: [0, 0, 7], fov: 55 }}
-              dpr={[1, 2]}
-              gl={{ antialias: true, alpha: true }}
-            >
-              <Suspense fallback={null}>
-                <Scene launching={launching} />
-              </Suspense>
-            </Canvas>
-          </Suspense>
+          <Canvas
+            camera={{ position: [0, 0, 7], fov: 55 }}
+            dpr={[1, 2]}
+            gl={{ antialias: true, alpha: true }}
+          >
+            <LandingScene launching={launching} />
+          </Canvas>
         )}
       </div>
 
