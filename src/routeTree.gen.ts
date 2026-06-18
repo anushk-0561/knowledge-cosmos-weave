@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ScoreRouteImport } from './routes/score'
 import { Route as HistoryRouteImport } from './routes/history'
+import { Route as CaseStudyRouteImport } from './routes/case-study'
 import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UniversePathRouteImport } from './routes/universe.$path'
@@ -24,6 +25,11 @@ const ScoreRoute = ScoreRouteImport.update({
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaseStudyRoute = CaseStudyRouteImport.update({
+  id: '/case-study',
+  path: '/case-study',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AchievementsRoute = AchievementsRouteImport.update({
@@ -50,6 +56,7 @@ const ExploreTopicRoute = ExploreTopicRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
+  '/case-study': typeof CaseStudyRoute
   '/history': typeof HistoryRoute
   '/score': typeof ScoreRoute
   '/explore/$topic': typeof ExploreTopicRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
+  '/case-study': typeof CaseStudyRoute
   '/history': typeof HistoryRoute
   '/score': typeof ScoreRoute
   '/explore/$topic': typeof ExploreTopicRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
+  '/case-study': typeof CaseStudyRoute
   '/history': typeof HistoryRoute
   '/score': typeof ScoreRoute
   '/explore/$topic': typeof ExploreTopicRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/achievements'
+    | '/case-study'
     | '/history'
     | '/score'
     | '/explore/$topic'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/achievements'
+    | '/case-study'
     | '/history'
     | '/score'
     | '/explore/$topic'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/achievements'
+    | '/case-study'
     | '/history'
     | '/score'
     | '/explore/$topic'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AchievementsRoute: typeof AchievementsRoute
+  CaseStudyRoute: typeof CaseStudyRoute
   HistoryRoute: typeof HistoryRoute
   ScoreRoute: typeof ScoreRoute
   ExploreTopicRoute: typeof ExploreTopicRoute
@@ -122,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/case-study': {
+      id: '/case-study'
+      path: '/case-study'
+      fullPath: '/case-study'
+      preLoaderRoute: typeof CaseStudyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/achievements': {
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AchievementsRoute: AchievementsRoute,
+  CaseStudyRoute: CaseStudyRoute,
   HistoryRoute: HistoryRoute,
   ScoreRoute: ScoreRoute,
   ExploreTopicRoute: ExploreTopicRoute,
