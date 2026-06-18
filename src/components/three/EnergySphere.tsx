@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Sphere, Icosahedron, MeshDistortMaterial, MeshWobbleMaterial, Trail } from "@react-three/drei";
+import { Sphere, Icosahedron, MeshDistortMaterial, MeshWobbleMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
 export function EnergySphere({ intensity = 1 }: { intensity?: number }) {
