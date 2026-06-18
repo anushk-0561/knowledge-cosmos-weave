@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
@@ -6,9 +6,8 @@ import { Nav } from "@/components/Nav";
 import { ExploreScene } from "@/components/three/ExploreScene";
 import { KnowledgePanel } from "@/components/KnowledgePanel";
 import { Wormhole } from "@/components/Wormhole";
-import { TimeMachine } from "@/components/TimeMachine";
 import { fetchRelated, fetchSummary, randomTopic, type RelatedTopic, type WikiSummary } from "@/lib/wiki";
-import { pushHistory, pushConnection, bumpSession, encodePath, getTopicStats, type TopicStat } from "@/lib/store";
+import { pushHistory } from "@/lib/store";
 
 export const Route = createFileRoute("/explore/$topic")({
   head: ({ params }) => {
@@ -34,12 +33,8 @@ function ExplorePage() {
   const [loading, setLoading] = useState(true);
   const [panelOpen, setPanelOpen] = useState(true);
   const [wormholeTo, setWormholeTo] = useState<string | null>(null);
-  const [showTimeline, setShowTimeline] = useState(false);
-  const [stats, setStats] = useState<TopicStat[]>([]);
   const depthRef = useRef<number>(1);
   const pathRef = useRef<string[]>([topic]);
-
-  useEffect(() => { bumpSession(); }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -50,7 +45,6 @@ function ExplorePage() {
       setRelated(r);
       setLoading(false);
       pushHistory({ topic, at: Date.now(), depth: depthRef.current });
-      setStats(getTopicStats());
     });
     return () => { cancelled = true; };
   }, [topic]);
@@ -59,7 +53,6 @@ function ExplorePage() {
     if (next === topic) return;
     depthRef.current += 1;
     pathRef.current.push(next);
-    pushConnection(topic, next);
     setWormholeTo(next);
     setTimeout(() => {
       navigate({ to: "/explore/$topic", params: { topic: encodeURIComponent(next) } });
@@ -83,7 +76,6 @@ function ExplorePage() {
           <ExploreScene
             topic={topic}
             related={related}
-            stats={stats}
             onSelect={goTo}
             onCenter={() => setPanelOpen(true)}
           />
@@ -120,22 +112,7 @@ function ExplorePage() {
         >
           ✦ Surprise me
         </button>
-        <button
-          onClick={() => setShowTimeline((v) => !v)}
-          className="glass-panel rounded-full px-4 py-2 font-mono text-[10px] tracking-[0.3em] uppercase hover:text-primary transition"
-        >
-          ◴ {showTimeline ? "Hide" : "Time"} machine
-        </button>
-        <Link
-          to="/universe/$path"
-          params={{ path: encodePath(pathRef.current) }}
-          className="glass-panel rounded-full px-4 py-2 font-mono text-[10px] tracking-[0.3em] uppercase hover:text-primary transition"
-        >
-          ↗ Share path
-        </Link>
       </div>
-
-      <AnimatePresence>{showTimeline && <TimeMachine topic={topic} />}</AnimatePresence>
 
       {/* Side panel */}
       <AnimatePresence>

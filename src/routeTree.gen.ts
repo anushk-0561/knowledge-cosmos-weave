@@ -9,27 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ScoreRouteImport } from './routes/score'
 import { Route as HistoryRouteImport } from './routes/history'
-import { Route as CaseStudyRouteImport } from './routes/case-study'
 import { Route as AchievementsRouteImport } from './routes/achievements'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UniversePathRouteImport } from './routes/universe.$path'
 import { Route as ExploreTopicRouteImport } from './routes/explore.$topic'
 
-const ScoreRoute = ScoreRouteImport.update({
-  id: '/score',
-  path: '/score',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const HistoryRoute = HistoryRouteImport.update({
   id: '/history',
   path: '/history',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CaseStudyRoute = CaseStudyRouteImport.update({
-  id: '/case-study',
-  path: '/case-study',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AchievementsRoute = AchievementsRouteImport.update({
@@ -42,11 +29,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UniversePathRoute = UniversePathRouteImport.update({
-  id: '/universe/$path',
-  path: '/universe/$path',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ExploreTopicRoute = ExploreTopicRouteImport.update({
   id: '/explore/$topic',
   path: '/explore/$topic',
@@ -56,92 +38,44 @@ const ExploreTopicRoute = ExploreTopicRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
-  '/case-study': typeof CaseStudyRoute
   '/history': typeof HistoryRoute
-  '/score': typeof ScoreRoute
   '/explore/$topic': typeof ExploreTopicRoute
-  '/universe/$path': typeof UniversePathRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
-  '/case-study': typeof CaseStudyRoute
   '/history': typeof HistoryRoute
-  '/score': typeof ScoreRoute
   '/explore/$topic': typeof ExploreTopicRoute
-  '/universe/$path': typeof UniversePathRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/achievements': typeof AchievementsRoute
-  '/case-study': typeof CaseStudyRoute
   '/history': typeof HistoryRoute
-  '/score': typeof ScoreRoute
   '/explore/$topic': typeof ExploreTopicRoute
-  '/universe/$path': typeof UniversePathRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/achievements'
-    | '/case-study'
-    | '/history'
-    | '/score'
-    | '/explore/$topic'
-    | '/universe/$path'
+  fullPaths: '/' | '/achievements' | '/history' | '/explore/$topic'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/achievements'
-    | '/case-study'
-    | '/history'
-    | '/score'
-    | '/explore/$topic'
-    | '/universe/$path'
-  id:
-    | '__root__'
-    | '/'
-    | '/achievements'
-    | '/case-study'
-    | '/history'
-    | '/score'
-    | '/explore/$topic'
-    | '/universe/$path'
+  to: '/' | '/achievements' | '/history' | '/explore/$topic'
+  id: '__root__' | '/' | '/achievements' | '/history' | '/explore/$topic'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AchievementsRoute: typeof AchievementsRoute
-  CaseStudyRoute: typeof CaseStudyRoute
   HistoryRoute: typeof HistoryRoute
-  ScoreRoute: typeof ScoreRoute
   ExploreTopicRoute: typeof ExploreTopicRoute
-  UniversePathRoute: typeof UniversePathRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/score': {
-      id: '/score'
-      path: '/score'
-      fullPath: '/score'
-      preLoaderRoute: typeof ScoreRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/history': {
       id: '/history'
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof HistoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/case-study': {
-      id: '/case-study'
-      path: '/case-study'
-      fullPath: '/case-study'
-      preLoaderRoute: typeof CaseStudyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/achievements': {
@@ -158,13 +92,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/universe/$path': {
-      id: '/universe/$path'
-      path: '/universe/$path'
-      fullPath: '/universe/$path'
-      preLoaderRoute: typeof UniversePathRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/explore/$topic': {
       id: '/explore/$topic'
       path: '/explore/$topic'
@@ -178,11 +105,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AchievementsRoute: AchievementsRoute,
-  CaseStudyRoute: CaseStudyRoute,
   HistoryRoute: HistoryRoute,
-  ScoreRoute: ScoreRoute,
   ExploreTopicRoute: ExploreTopicRoute,
-  UniversePathRoute: UniversePathRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
