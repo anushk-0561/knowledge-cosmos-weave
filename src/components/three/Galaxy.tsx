@@ -74,17 +74,19 @@ function OrbitNode({
   position,
   onSelect,
   index,
+  boost = 0,
 }: {
   topic: string;
   type: NodeType;
   position: [number, number, number];
   onSelect: (t: string) => void;
   index: number;
+  boost?: number;
 }) {
   const ref = useRef<THREE.Group>(null!);
   const [hover, setHover] = useState(false);
   const color = colorFor(type);
-  const size = 0.35 + (index % 4) * 0.05;
+  const size = 0.35 + (index % 4) * 0.05 + boost;
 
   useFrame((state, dt) => {
     if (!ref.current) return;
@@ -104,7 +106,7 @@ function OrbitNode({
       onClick={(e) => { e.stopPropagation(); onSelect(topic); }}
     >
       <NodeMesh type={type} color={color} size={size} />
-      <pointLight color={color} intensity={hover ? 3 : 1.2} distance={4} />
+      <pointLight color={color} intensity={(hover ? 3 : 1.2) + boost * 2} distance={4 + boost * 3} />
       {hover && (
         <Html center distanceFactor={8} style={{ pointerEvents: "none" }}>
           <div className="px-3 py-1.5 rounded-full glass-panel font-mono text-[11px] tracking-widest uppercase text-foreground whitespace-nowrap">
